@@ -37,7 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'oauth2_provider',
+    'CustomUsers',
 ]
+
+AUTH_USER_MODEL = 'CustomUsers.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 36000,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
