@@ -11,6 +11,9 @@ class LoginCustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'password', 'create_date']
 
+class RefreshTokenCustomUserSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField()
+
 class CreateCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

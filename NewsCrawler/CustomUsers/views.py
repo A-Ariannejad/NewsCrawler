@@ -6,7 +6,7 @@ from oauth2_provider.models import AccessToken, RefreshToken, Application
 from oauth2_provider.settings import oauth2_settings
 from oauthlib.common import generate_token
 from django.utils import timezone
-from .serializers import CustomUser, LoginCustomUserSerializer, GetCustomUserProfileSerializer, CreateCustomUserSerializer, UpdateCustomUserSerializer
+from .serializers import CustomUser, LoginCustomUserSerializer, GetCustomUserProfileSerializer, CreateCustomUserSerializer, UpdateCustomUserSerializer, RefreshTokenCustomUserSerializer
 from .permissions import IsAdminUser
 from django.contrib.auth.hashers import make_password
 
@@ -70,6 +70,9 @@ class LoginView(APIView):
             )
         except Application.DoesNotExist:
             return Response({'error': 'No application found or created.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        access_token = AccessToken.objects.filter(user=user, application=application).all()
+        if access_token:
+            access_token.delete()
         access_token = AccessToken.objects.create(
             user=user,
             application=application,
@@ -90,5 +93,33 @@ class LoginView(APIView):
             'refresh_token': refresh_token.token,
             'user_id': user.id,
             'username': user.username,
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+class TokenRefreshView(APIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RefreshTokenCustomUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        refresh_token_value = request.data.get('refresh_token')
+        try:
+            refresh_token = RefreshToken.objects.get(token=refresh_token_value)
+        except RefreshToken.DoesNotExist:
+            return Response({'error': 'Invalid refresh token'}, status=status.HTTP_400_BAD_REQUEST)
+        access_token = refresh_token.access_token
+        if access_token.expires < timezone.now():
+            return Response({'error': 'Refresh token has expired'}, status=status.HTTP_400_BAD_REQUEST)
+        new_access_token = AccessToken.objects.create(
+            user=access_token.user,
+            application=access_token.application,
+            expires=timezone.now() + timezone.timedelta(seconds=oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS),
+            token=generate_token(),
+            scope=access_token.scope,
+        )
+        access_token.delete()
+        data = {
+            'access_token': new_access_token.token,
+            'token_type': 'Bearer',
+            'expires_in': oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS,
         }
         return Response(data, status=status.HTTP_200_OK)
