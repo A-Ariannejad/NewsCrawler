@@ -21,7 +21,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     create_date = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
@@ -29,3 +29,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class LogicUser:
+    def get_user(request):
+        user = None
+        try:
+            id = request.user.id
+            user = CustomUser.objects.get(id=id)
+        except:
+            pass
+        return user

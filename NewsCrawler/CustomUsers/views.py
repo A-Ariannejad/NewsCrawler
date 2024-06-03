@@ -1,16 +1,33 @@
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, permissions
 from oauth2_provider.models import AccessToken, RefreshToken, Application
 from oauth2_provider.settings import oauth2_settings
 from oauthlib.common import generate_token
 from django.utils import timezone
-from rest_framework.permissions import AllowAny
-from .serializers import CustomUserLoginSerializer
+from .serializers import CustomUser, CustomUserLoginSerializer, GetCustomUserProfileSerializer, CustomUserSerializer
+from .permissions import IsAdminUser
+
+class CustomUserSignup(generics.CreateAPIView):
+    permission_classes = [IsAdminUser]
+    serializer_class = CustomUserSerializer
+
+class MyCustomUserShowView(generics.RetrieveAPIView):
+    serializer_class = GetCustomUserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            user_id = request.user.id
+            user = CustomUser.objects.get(id=user_id)
+            serializer = self.serializer_class(user)
+            return Response(serializer.data)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
 class LoginView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.AllowAny]
     serializer_class = CustomUserLoginSerializer
 
     def post(self, request, *args, **kwargs):

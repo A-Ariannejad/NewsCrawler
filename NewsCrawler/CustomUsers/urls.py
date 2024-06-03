@@ -1,11 +1,10 @@
 from django.urls import path, include
 from rest_framework import routers
-from .views import LoginView
+from .views import LoginView, MyCustomUserShowView, CustomUserSignup
 
-router = routers.DefaultRouter()
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('login', LoginView.as_view(), name='token'),
+    path('myshow/', MyCustomUserShowView.as_view(), name='myshow'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('create/', CustomUserSignup.as_view(), name='create'),
 ]
