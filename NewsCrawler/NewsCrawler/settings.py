@@ -151,9 +151,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SPECTACULAR_SETTINGS = {
-    'SERVE_INCLUDE_SCHEMA': False,  # Set to False to use custom schema
+    'SERVE_INCLUDE_SCHEMA': False,
     'SWAGGER_UI_SETTINGS': {
-        'oauth2RedirectUrl': 'http://example.com/oauth2-redirect.html',
+        'oauth2RedirectUrl': 'http://localhost:8000/oauth2-redirect.html',
         'oauth': {
             'clientId': 'your-client-id',
             'clientSecret': None,
