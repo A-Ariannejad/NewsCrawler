@@ -9,8 +9,14 @@ from django.utils import timezone
 from .serializers import CustomUser, CustomUserLoginSerializer, GetCustomUserProfileSerializer, CustomUserSerializer
 from .permissions import IsAdminUser
 
-class CustomUserSignup(generics.CreateAPIView):
+class CustomUserDeleteView(generics.DestroyAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+
+class CustomUserCreate(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
+    queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
 class MyCustomUserShowView(generics.RetrieveAPIView):

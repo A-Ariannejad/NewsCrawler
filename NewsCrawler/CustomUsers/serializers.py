@@ -6,12 +6,12 @@ class GetCustomUserProfileSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'create_date']
 
-class CustomUserLoginSerializer(serializers.ModelSerializer):
+class LoginCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'password', 'create_date']
 
-class CustomUserSerializer(serializers.ModelSerializer):
+class CreateCustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'password', 'create_date']
