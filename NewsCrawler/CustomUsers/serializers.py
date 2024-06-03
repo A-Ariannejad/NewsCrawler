@@ -23,3 +23,8 @@ class CreateCustomUserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+    
+class UpdateCustomUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'password']

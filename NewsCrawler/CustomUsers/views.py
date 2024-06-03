@@ -6,18 +6,27 @@ from oauth2_provider.models import AccessToken, RefreshToken, Application
 from oauth2_provider.settings import oauth2_settings
 from oauthlib.common import generate_token
 from django.utils import timezone
-from .serializers import CustomUser, CustomUserLoginSerializer, GetCustomUserProfileSerializer, CustomUserSerializer
+from .serializers import CustomUser, LoginCustomUserSerializer, GetCustomUserProfileSerializer, CreateCustomUserSerializer, UpdateCustomUserSerializer
 from .permissions import IsAdminUser
+from django.contrib.auth.hashers import make_password
+
+class CustomUserUpdateView(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateCustomUserSerializer
+    permission_classes = [IsAdminUser]
+
+    def perform_update(self, serializer):
+        serializer.save(password=make_password(self.request.data.get('password')))
 
 class CustomUserDeleteView(generics.DestroyAPIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAdminUser]
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = GetCustomUserProfileSerializer
 
 class CustomUserCreate(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = CreateCustomUserSerializer
 
 class MyCustomUserShowView(generics.RetrieveAPIView):
     serializer_class = GetCustomUserProfileSerializer
@@ -34,7 +43,7 @@ class MyCustomUserShowView(generics.RetrieveAPIView):
 
 class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
-    serializer_class = CustomUserLoginSerializer
+    serializer_class = LoginCustomUserSerializer
 
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
