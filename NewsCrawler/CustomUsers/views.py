@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics, permissions
+from rest_framework import status, generics, viewsets, permissions
 from oauth2_provider.models import AccessToken, RefreshToken, Application
 from oauth2_provider.settings import oauth2_settings
 from oauthlib.common import generate_token
@@ -10,6 +10,17 @@ from .serializers import CustomUser, LoginCustomUserSerializer, GetCustomUserPro
 from .permissions import IsAdminUser
 from django.contrib.auth.hashers import make_password
 
+class CustomUserShowView(generics.RetrieveAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = GetCustomUserProfileSerializer
+    permission_classes = [IsAdminUser]
+    lookup_field = 'id'
+
+class CustomUserListView(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = GetCustomUserProfileSerializer
+    permission_classes = [IsAdminUser]
+    
 class CustomUserUpdateView(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UpdateCustomUserSerializer
@@ -23,7 +34,7 @@ class CustomUserDeleteView(generics.DestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = GetCustomUserProfileSerializer
 
-class CustomUserCreate(generics.CreateAPIView):
+class CustomUserCreateView(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
     queryset = CustomUser.objects.all()
     serializer_class = CreateCustomUserSerializer
