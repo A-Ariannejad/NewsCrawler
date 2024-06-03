@@ -1,7 +1,5 @@
-from django.urls import path, include
-from rest_framework import routers
+from django.urls import path
 from .views import LoginView, MyCustomUserShowView, CustomUserCreateView, CustomUserDeleteView, CustomUserUpdateView, CustomUserShowView, CustomUserListView, TokenRefreshView
-
 
 urlpatterns = [
     path('myshow/', MyCustomUserShowView.as_view(), name='myshow'),

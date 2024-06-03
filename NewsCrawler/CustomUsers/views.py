@@ -9,6 +9,8 @@ from django.utils import timezone
 from .serializers import CustomUser, LoginCustomUserSerializer, GetCustomUserProfileSerializer, CreateCustomUserSerializer, UpdateCustomUserSerializer, RefreshTokenCustomUserSerializer
 from .permissions import IsAdminUser
 from django.contrib.auth.hashers import make_password
+from drf_yasg.utils import swagger_auto_schema
+from django.contrib.auth import authenticate
 
 class CustomUserShowView(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
@@ -56,6 +58,7 @@ class LoginView(APIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = LoginCustomUserSerializer
 
+    @swagger_auto_schema(request_body=LoginCustomUserSerializer)
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -100,6 +103,7 @@ class TokenRefreshView(APIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = RefreshTokenCustomUserSerializer
 
+    @swagger_auto_schema(request_body=RefreshTokenCustomUserSerializer)
     def post(self, request, *args, **kwargs):
         refresh_token_value = request.data.get('refresh_token')
         try:
@@ -123,3 +127,4 @@ class TokenRefreshView(APIView):
             'expires_in': oauth2_settings.ACCESS_TOKEN_EXPIRE_SECONDS,
         }
         return Response(data, status=status.HTTP_200_OK)
+
