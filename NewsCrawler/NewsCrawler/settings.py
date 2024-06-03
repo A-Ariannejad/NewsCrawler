@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
     'CustomUsers',
+    'Crawlers',
 ]
 
 AUTH_USER_MODEL = 'CustomUsers.CustomUser'
