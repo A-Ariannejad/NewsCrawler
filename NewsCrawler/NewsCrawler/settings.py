@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'CustomUsers',
     'Crawlers',
+    'CustomNews',
 ]
 
 AUTH_USER_MODEL = 'CustomUsers.CustomUser'
