@@ -3,11 +3,12 @@ import os
 import requests
 import xml.etree.ElementTree as ET
 
-def parse_xml_response(xml_content):
+def parse_xml_response(xml_content, key):
     items = {}
     root = ET.fromstring(xml_content)
     for item in root.findall('.//item'):
         x = {}
+        x['category'] = key
         x['title'] = item.find('title').text
         x['pubDate'] = item.find('pubDate').text
         x['link'] = item.find('link').text
@@ -86,7 +87,7 @@ for k, v in urls.items():
     filename = f"{k}_response.xml"
     xml_content = save_response_to_file(v, filename)
     if xml_content:
-        items = parse_xml_response(xml_content)
+        items = parse_xml_response(xml_content, k)
         all_items.update(items)
 
 all_the_news_file = r'C:\Users\Arshia\Desktop\NewsCrawler\all_the_news.json'
