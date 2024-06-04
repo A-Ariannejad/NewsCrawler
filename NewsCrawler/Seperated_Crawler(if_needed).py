@@ -87,8 +87,7 @@ for k, v in urls.items():
     xml_content = save_response_to_file(v, filename)
     if xml_content:
         items = parse_xml_response(xml_content)
-        for item in items:
-            all_items.update(items)
+        all_items.update(items)
 
 all_the_news_file = r'C:\Users\Arshia\Desktop\NewsCrawler\all_the_news.json'
 new_objects_file = r'C:\Users\Arshia\Desktop\NewsCrawler\new_objects.json'
