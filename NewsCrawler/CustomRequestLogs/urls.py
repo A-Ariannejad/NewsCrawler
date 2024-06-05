@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import CustomRequestLogListView
+from .views import CustomRequestLogNumberView
 
 urlpatterns = [
-    path('list/', CustomRequestLogListView.as_view(), name='list'),
+    path('list/', CustomRequestLogNumberView.as_view(), name='list'),
 ]
