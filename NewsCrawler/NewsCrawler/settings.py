@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'CustomUsers',
     'Crawlers',
     'CustomNews',
+    'CustomRequestLogs',
 ]
 
 AUTH_USER_MODEL = 'CustomUsers.CustomUser'
