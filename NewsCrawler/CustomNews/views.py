@@ -8,6 +8,7 @@ from django_filters import rest_framework
 from rest_framework import filters
 from rest_framework.response import Response
 from datetime import datetime
+from django.db.models import Q
 
 class CustomNewFilter(rest_framework.FilterSet):
     pubDate_ad = rest_framework.DateTimeFromToRangeFilter()
@@ -71,24 +72,15 @@ class CustomNewCategoriesNumberView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         res ={
-        'all_news': queryset.filter(category='all_news').count(),
-        'most_all_news': queryset.filter(category='most_all_news').count(),
-        'first_page': queryset.filter(category='first_page').count(),
-        'most_first_page': queryset.filter(category='most_first_page').count(),
-        'election': queryset.filter(category='election').count(),
-        'most_election': queryset.filter(category='most_election').count(),
-        'international': queryset.filter(category='international').count(),
-        'most_international': queryset.filter(category='most_international').count(),
-        'sports': queryset.filter(category='sports').count(),
-        'most_sports': queryset.filter(category='most_sports').count(),
-        'social': queryset.filter(category='social').count(),
-        'most_social': queryset.filter(category='most_social').count(),
-        'economics': queryset.filter(category='economics').count(),
-        'most_economics': queryset.filter(category='most_economics').count(),
-        'arts': queryset.filter(category='arts').count(),
-        'most_arts': queryset.filter(category='most_arts').count(),
-        'medical': queryset.filter(category='medical').count(),
-        'most_medical': queryset.filter(category='most_medical').count(),
+        'all_news': queryset.filter(Q(category='all_news') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'first_page': queryset.filter(Q(category='first_page') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'election': queryset.filter(Q(category='election') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'international': queryset.filter(Q(category='international') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'sports': queryset.filter(Q(category='sports') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'social': queryset.filter(Q(category='social') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'economics': queryset.filter(Q(category='economics') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'arts': queryset.filter(Q(category='arts') & (Q(status='latest') | Q(status='most_visited'))).count(),
+        'medical': queryset.filter(Q(category='medical') & (Q(status='latest') | Q(status='most_visited'))).count(),
     }
         return Response(res, status=status.HTTP_200_OK)
 
