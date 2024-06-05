@@ -125,18 +125,17 @@ def clear_and_write_empty_json(file_path):
         file.write('{}')
     print(time.strftime("%Y-%m-%d %H:%M:%S"), "new objects are set to be reset ............... ✔✔✔✔✔✔✔✔✔✔✔✔")
     
-        
 def convert_iso_to_shamsi(iso_date_string):
-    dt = datetime.strptime(iso_date_string, "%Y-%m-%dT%H:%M:%SZ")
+    dt = datetime.strptime(iso_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     dt_utc = dt.replace(tzinfo=pytz.utc)
-    shamsi_date = JalaliDatetime(dt_utc).strftime('%Y-%m-%d %H:%M:%S')
+    shamsi_date = JalaliDatetime(dt_utc).strftime('%Y-%m-%d %H:%M:%S.%f')  # Including milliseconds
     return shamsi_date
 
 def convert_to_iso8601(date_string):
     input_format = "%d %b %Y %H:%M:%S %z"
     dt = datetime.strptime(date_string, input_format)
     dt_utc = dt.astimezone(timezone.utc)
-    iso8601_format = dt_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    iso8601_format = dt_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ")  # Including milliseconds
     return iso8601_format
 
 def save_to_database():
@@ -148,8 +147,16 @@ def save_to_database():
         adDate = convert_to_iso8601(value['pubDate'])
         shamsi_date = convert_iso_to_shamsi(adDate)
         user_profile, created = CustomNew.objects.update_or_create(
-            yjc_id = value['id'],
-            defaults={'category': value['category'], 'status': value['status'], 'title': value['title'], 'link': value['link'], 'pubDate_ad': adDate, 'pubDate_solar': shamsi_date, 'description': value['description']}
+            yjc_id=value['id'],
+            defaults={
+                'category': value['category'],
+                'status': value['status'],
+                'title': value['title'],
+                'link': value['link'],
+                'pubDate_ad': datetime.strptime(adDate, "%Y-%m-%dT%H:%M:%S.%fZ"),
+                'pubDate_solar': datetime.strptime(shamsi_date, "%Y-%m-%d %H:%M:%S.%f"),
+                'description': value['description']
+            }
         )
         if created:
             created_num += 1

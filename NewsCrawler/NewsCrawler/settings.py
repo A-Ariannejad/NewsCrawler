@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'CustomUsers',
     'Crawlers',
     'CustomNews',
+    'CustomRequestLogs',
 ]
 
 AUTH_USER_MODEL = 'CustomUsers.CustomUser'
@@ -71,6 +72,7 @@ OAUTH2_PROVIDER = {
 }
 
 MIDDLEWARE = [
+    'CustomRequestLogs.middleware.CustomRequestLogMiddleware',
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

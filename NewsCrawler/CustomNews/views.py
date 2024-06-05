@@ -1,6 +1,5 @@
-from rest_framework import status, generics, viewsets, permissions
+from rest_framework import status, generics, permissions
 from .serializers import CustomNew, GetCustomNewSerializer
-from CustomUsers.permissions import IsAdminUser
 from rest_framework.pagination import PageNumberPagination
 from .serializers import GetCustomNewSerializer
 from django_filters.rest_framework import DjangoFilterBackend
@@ -21,11 +20,6 @@ class CustomNewCategoriesNumberFilter(rest_framework.FilterSet):
     class Meta:
         model = CustomNew
         fields = ['pubDate_ad']
-
-class CustomNewPagination(PageNumberPagination):
-    page_size = 5
-    page_size_query_param = 'page_size'
-    max_page_size = 100
 
 class CustomNewPagination(PageNumberPagination):
     page_size = 5
@@ -81,7 +75,7 @@ class CustomNewCategoriesNumberView(generics.ListAPIView):
         'economics': queryset.filter(Q(category='economics') & (Q(status='latest') | Q(status='most_visited'))).count(),
         'arts': queryset.filter(Q(category='arts') & (Q(status='latest') | Q(status='most_visited'))).count(),
         'medical': queryset.filter(Q(category='medical') & (Q(status='latest') | Q(status='most_visited'))).count(),
-    }
+        }
         return Response(res, status=status.HTTP_200_OK)
 
 
