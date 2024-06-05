@@ -139,7 +139,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'newscrawler',      # name of your PostgreSQL database
         'USER': 'postgres',      # username for your PostgreSQL database
-        'PASSWORD': '10205080Arian',  # password for your PostgreSQL database
+        'PASSWORD': 'password',  # password for your PostgreSQL database
         'HOST': 'localhost',               # Replace 'localhost' with the hostname or IP address of your PostgreSQL server
         'PORT': '5432',                    # Replace '5432' with the port number of your PostgreSQL server
     }
