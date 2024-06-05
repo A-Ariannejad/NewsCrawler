@@ -25,4 +25,5 @@ urlpatterns = [
     path('oauth2/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('user/', include('CustomUsers.urls')),
+    path('new/', include('CustomNews.urls')),
 ]
