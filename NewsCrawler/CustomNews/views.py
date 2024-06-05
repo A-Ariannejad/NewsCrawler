@@ -53,13 +53,13 @@ class CustomNewCategoriesNumberView(generics.ListAPIView):
         start_date_str = self.request.GET.get('pubDate_ad_after', None)
         end_date_str = self.request.GET.get('pubDate_ad_before', None)
         if start_date_str:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%dT%H:%M:%SZ')
         else:
             start_date = '1800-01-01T00:00:00Z'
         if end_date_str:
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%dT%H:%M:%S.%fZ')
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%dT%H:%M:%SZ')
         else:
-            end_date = datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+            end_date = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         queryset = CustomNew.objects.filter(create_date__range=[start_date, end_date]).all()
         return queryset
     
