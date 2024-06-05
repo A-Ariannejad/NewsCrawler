@@ -33,7 +33,7 @@ class CustomNewPagination(PageNumberPagination):
 
 class CustomNewListView(generics.ListAPIView):
     queryset = CustomNew.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     serializer_class = GetCustomNewSerializer
     pagination_class = CustomNewPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -45,10 +45,52 @@ class CustomNewListView(generics.ListAPIView):
 class CustomNewShowView(generics.RetrieveAPIView):
     queryset = CustomNew.objects.all()
     serializer_class = GetCustomNewSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     lookup_field = 'yjc_id'
 
-
+class CustomNewCategoriesNumberView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    serializer_class = GetCustomNewSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CustomNewCategoriesNumberFilter
+    
+    def get_queryset(self):
+        start_date_str = self.request.GET.get('pubDate_ad_after', None)
+        end_date_str = self.request.GET.get('pubDate_ad_before', None)
+        if start_date_str:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%dT%H:%M:%SZ')
+        else:
+            start_date = '1800-01-01T00:00:00Z'
+        if end_date_str:
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%dT%H:%M:%SZ')
+        else:
+            end_date = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
+        queryset = CustomNew.objects.filter(create_date__range=[start_date, end_date]).all()
+        return queryset
+    
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        res ={
+        'all_news': queryset.filter(category='all_news').count(),
+        'most_all_news': queryset.filter(category='most_all_news').count(),
+        'first_page': queryset.filter(category='first_page').count(),
+        'most_first_page': queryset.filter(category='most_first_page').count(),
+        'election': queryset.filter(category='election').count(),
+        'most_election': queryset.filter(category='most_election').count(),
+        'international': queryset.filter(category='international').count(),
+        'most_international': queryset.filter(category='most_international').count(),
+        'sports': queryset.filter(category='sports').count(),
+        'most_sports': queryset.filter(category='most_sports').count(),
+        'social': queryset.filter(category='social').count(),
+        'most_social': queryset.filter(category='most_social').count(),
+        'economics': queryset.filter(category='economics').count(),
+        'most_economics': queryset.filter(category='most_economics').count(),
+        'arts': queryset.filter(category='arts').count(),
+        'most_arts': queryset.filter(category='most_arts').count(),
+        'medical': queryset.filter(category='medical').count(),
+        'most_medical': queryset.filter(category='most_medical').count(),
+    }
+        return Response(res, status=status.HTTP_200_OK)
 
 
 
