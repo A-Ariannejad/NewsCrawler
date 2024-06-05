@@ -5,13 +5,22 @@ import atexit
 import json
 import time
 import os
+from datetime import datetime, timezone
+import pytz
+from khayyam import JalaliDatetime
+from CustomNews.models import CustomNew
 
 def parse_xml_response(xml_content, key):
     items = {}
     root = ET.fromstring(xml_content)
     for item in root.findall('.//item'):
+        status = 'latest'
+        if key.startswith('most_'):
+            status = 'most_visited'
+            key = key.replace('most_', '', 1)
         x = {}
         x['category'] = key
+        x['status'] = status
         x['title'] = item.find('title').text
         x['pubDate'] = item.find('pubDate').text
         x['link'] = item.find('link').text
@@ -94,9 +103,6 @@ def start_crawling():
             items = parse_xml_response(xml_content, k)
             all_items.update(items)
 
-    all_the_news_file = os.path.join(data_directory, 'all_the_news.json')
-    new_objects_file = os.path.join(data_directory, 'new_objects.json')
-
     old_dict = load_dict_from_file(all_the_news_file)
     new_dict = load_dict_from_file(new_objects_file)
 
@@ -108,11 +114,59 @@ def start_crawling():
 
     print(time.strftime("%Y-%m-%d %H:%M:%S"), "crawling finished ............... ✔✔✔✔✔✔✔✔✔✔✔✔")
 
+    save_to_database()
+
+
+################################################################################
+
+def clear_and_write_empty_json(file_path):
+    with open(file_path, 'w') as file:
+        file.write('{}')
+    print(time.strftime("%Y-%m-%d %H:%M:%S"), "new objects are set to be reset ............... ✔✔✔✔✔✔✔✔✔✔✔✔")
+    
+        
+def convert_iso_to_shamsi(iso_date_string):
+    dt = datetime.strptime(iso_date_string, "%Y-%m-%dT%H:%M:%SZ")
+    dt_utc = dt.replace(tzinfo=pytz.utc)
+    shamsi_date = JalaliDatetime(dt_utc).strftime('%Y-%m-%d %H:%M:%S')
+    return shamsi_date
+
+def convert_to_iso8601(date_string):
+    input_format = "%d %b %Y %H:%M:%S %z"
+    dt = datetime.strptime(date_string, input_format)
+    dt_utc = dt.astimezone(timezone.utc)
+    iso8601_format = dt_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return iso8601_format
+
+def save_to_database():
+    created_num = 0
+    updated_num = 0
+    new_objects_file = os.path.join(data_directory, 'new_objects.json')
+    has_to_add_objects = load_dict_from_file(new_objects_file)
+    for key, value in has_to_add_objects.items():
+        adDate = convert_to_iso8601(value['pubDate'])
+        shamsi_date = convert_iso_to_shamsi(adDate)
+        user_profile, created = CustomNew.objects.update_or_create(
+            yjc_id = value['id'],
+            defaults={'category': value['category'], 'status': value['status'], 'title': value['title'], 'link': value['link'], 'pubDate_ad': adDate, 'pubDate_solar': shamsi_date, 'description': value['description']}
+        )
+        if created:
+            created_num += 1
+        else:
+            updated_num += 1
+    print(f'{created_num} objects are created')
+    print(f'{updated_num} objects are updated')
+    print(time.strftime("%Y-%m-%d %H:%M:%S"), "adding to database is finished ............... ✔✔✔✔✔✔✔✔✔✔✔✔")
+    clear_and_write_empty_json(new_objects_file)
+    
 
 ################################################################################
 
 lock_file = 'periodic_task.lock'
 data_directory = 'Crawlers/Data'
+all_the_news_file = os.path.join(data_directory, 'all_the_news.json')
+new_objects_file = os.path.join(data_directory, 'new_objects.json')
+
 if not os.path.exists(data_directory):
     os.makedirs(data_directory)
 
@@ -121,9 +175,11 @@ def start_periodic_task():
         with open(lock_file, 'w') as f:
             f.write('Task started\n')
         def run_periodic():
+            time.sleep(10) #delay to start in the first place
             while True:
                 start_crawling()
-                time.sleep(120)
+                time.sleep(300)
+        
         periodic_thread = threading.Thread(target=run_periodic)
         periodic_thread.daemon = True
         periodic_thread.start()
