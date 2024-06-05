@@ -33,7 +33,7 @@ class CustomNewPagination(PageNumberPagination):
 
 class CustomNewListView(generics.ListAPIView):
     queryset = CustomNew.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = GetCustomNewSerializer
     pagination_class = CustomNewPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -45,11 +45,11 @@ class CustomNewListView(generics.ListAPIView):
 class CustomNewShowView(generics.RetrieveAPIView):
     queryset = CustomNew.objects.all()
     serializer_class = GetCustomNewSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'yjc_id'
 
 class CustomNewCategoriesNumberView(generics.ListAPIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = GetCustomNewSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = CustomNewCategoriesNumberFilter
