@@ -127,7 +127,7 @@ def clear_and_write_empty_json(file_path):
     
         
 def convert_iso_to_shamsi(iso_date_string):
-    dt = datetime.strptime(iso_date_string, "%Y-%m-%dT%H:%M:%SZ")
+    dt = datetime.strptime(iso_date_string, "%Y-%m-%dT%H:%M:%S.%fZ")
     dt_utc = dt.replace(tzinfo=pytz.utc)
     shamsi_date = JalaliDatetime(dt_utc).strftime('%Y-%m-%d %H:%M:%S')
     return shamsi_date
@@ -136,7 +136,7 @@ def convert_to_iso8601(date_string):
     input_format = "%d %b %Y %H:%M:%S %z"
     dt = datetime.strptime(date_string, input_format)
     dt_utc = dt.astimezone(timezone.utc)
-    iso8601_format = dt_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    iso8601_format = dt_utc.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
     return iso8601_format
 
 def save_to_database():
