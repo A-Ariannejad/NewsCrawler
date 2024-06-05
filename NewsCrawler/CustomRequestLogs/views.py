@@ -1,4 +1,4 @@
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status
 from .serializers import CustomRequestLog, GetCustomRequestLogSerializer
 from django.db.models import Q
 from CustomUsers.permissions import IsAdminUser
@@ -17,7 +17,7 @@ class CustomRequestLogFilter(rest_framework.FilterSet):
 
 class CustomRequestLogListView(generics.ListAPIView):
     queryset = CustomRequestLog.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAdminUser]
     serializer_class = GetCustomRequestLogSerializer
     pagination_class = CustomNewPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
@@ -33,8 +33,7 @@ class CustomRequestLogFilter(rest_framework.FilterSet):
 
 class CustomRequestLogNumberView(generics.ListAPIView):
     serializer_class = GetCustomRequestLogSerializer
-    permission_classes = [permissions.AllowAny]
-
+    permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend]
     filterset_class = CustomRequestLogFilter
 
