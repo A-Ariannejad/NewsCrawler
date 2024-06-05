@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,11 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+env = Env()
+env.read_env()
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-7*$lyi3pg!f@yzkkhpe9m3y8em5l)8ortgx#a6orr6v^u6!av_'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:3000','http://127.0.0.1:3000']
@@ -137,11 +142,11 @@ WSGI_APPLICATION = 'NewsCrawler.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'newscrawler',      # name of your PostgreSQL database
-        'USER': 'postgres',      # username for your PostgreSQL database
-        'PASSWORD': 'password',  # password for your PostgreSQL database
-        'HOST': 'localhost',               # Replace 'localhost' with the hostname or IP address of your PostgreSQL server
-        'PORT': '5432',                    # Replace '5432' with the port number of your PostgreSQL server
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),    
+        'PASSWORD': env.str('DB_PASSWORD'),  
+        'HOST': env.str('DB_HOST'), 
+        'PORT': '5432',          
     }
 }
 
