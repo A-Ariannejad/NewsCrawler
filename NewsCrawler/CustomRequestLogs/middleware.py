@@ -6,7 +6,8 @@ class CustomRequestLogMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
+        requested_url = request.path
         status = response.status_code
         successful = status < 400
-        CustomRequestLog.objects.create(status=str(status), successful=successful)
+        CustomRequestLog.objects.create(requested_url=str(requested_url), status=str(status), successful=successful)
         return response
