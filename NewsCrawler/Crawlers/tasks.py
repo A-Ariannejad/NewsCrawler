@@ -14,12 +14,13 @@ def parse_xml_response(xml_content, key):
     items = {}
     root = ET.fromstring(xml_content)
     for item in root.findall('.//item'):
+        k = key
         status = 'latest'
         if key.startswith('most_'):
             status = 'most_visited'
-            key = key.replace('most_', '', 1)
+            k = key.replace('most_', '', 1)
         x = {}
-        x['category'] = key
+        x['category'] = k
         x['status'] = status
         x['title'] = item.find('title').text
         x['pubDate'] = item.find('pubDate').text
