@@ -176,7 +176,7 @@ def start_periodic_task():
         with open(lock_file, 'w') as f:
             f.write('Task started\n')
         def run_periodic():
-            time.sleep(10) #delay to start in the first place
+            time.sleep(6000) #delay to start in the first place
             while True:
                 start_crawling()
                 time.sleep(300)
