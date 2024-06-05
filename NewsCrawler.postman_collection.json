@@ -1,0 +1,592 @@
+{
+	"info": {
+		"_postman_id": "d4a7e2aa-b379-47c3-8619-7a4e8e9b34f2",
+		"name": "NewsCrawler",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12966932"
+	},
+	"item": [
+		{
+			"name": "Users-APIs",
+			"item": [
+				{
+					"name": "User Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "a",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/user/login/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "l",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/user/create/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/user/show/1/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"show",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/user/list/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User My Show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/user/myshow/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"myshow",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/user/delete/12/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"delete",
+								"12",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "ariannejad14@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "Arshia",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Ariannejad",
+									"type": "text"
+								},
+								{
+									"key": "is_company",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "+989901941300",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "arshia",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "ایران",
+									"type": "text"
+								},
+								{
+									"key": "user_permissions",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/user/update/1/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"update",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Refresh",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "refresh_token",
+									"value": "imuRO69CYrufsjRHUiAX3Z9X5LcMng",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{IP}}/user/refresh/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"user",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "News-APIs",
+			"item": [
+				{
+					"name": "News Show",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/new/show/1/",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"new",
+								"show",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "News List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/new/list/?category=a&status=latest&pubDate_ad_after=2024-06-01T07:32:44Z&pubDate_ad_before=2024-06-01T07:32:44Z&search=a",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"new",
+								"list",
+								""
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "a"
+								},
+								{
+									"key": "status",
+									"value": "latest"
+								},
+								{
+									"key": "pubDate_ad_after",
+									"value": "2024-06-01T07:32:44Z"
+								},
+								{
+									"key": "pubDate_ad_before",
+									"value": "2024-06-01T07:32:44Z"
+								},
+								{
+									"key": "search",
+									"value": "a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "News Categories Number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/new/categories-number/?pubDate_ad_after=2024-06-01T07:32:44Z&pubDate_ad_before=2024-06-01T07:32:44Z",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"new",
+								"categories-number",
+								""
+							],
+							"query": [
+								{
+									"key": "pubDate_ad_after",
+									"value": "2024-06-01T07:32:44Z"
+								},
+								{
+									"key": "pubDate_ad_before",
+									"value": "2024-06-01T07:32:44Z"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Logs-APIs",
+			"item": [
+				{
+					"name": "Logs List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/log/list/?requested_url=a&owner=1&status=a&successful=false&create_date_after=2024-06-05T14:22:50.544753Z&create_date_before=2024-06-05T14:22:50.544753Z",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"log",
+								"list",
+								""
+							],
+							"query": [
+								{
+									"key": "requested_url",
+									"value": "a"
+								},
+								{
+									"key": "owner",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "a"
+								},
+								{
+									"key": "successful",
+									"value": "false"
+								},
+								{
+									"key": "create_date_after",
+									"value": "2024-06-05T14:22:50.544753Z"
+								},
+								{
+									"key": "create_date_before",
+									"value": "2024-06-05T14:22:50.544753Z"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logs Number",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{IP}}/log/list-number/?create_date_after=2024-06-05T14:22:50.544753Z&create_date_before=2024-06-05T14:22:50.544753Z",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"log",
+								"list-number",
+								""
+							],
+							"query": [
+								{
+									"key": "create_date_after",
+									"value": "2024-06-05T14:22:50.544753Z"
+								},
+								{
+									"key": "create_date_before",
+									"value": "2024-06-05T14:22:50.544753Z"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "dPKunL1173XYyotE4xgewFTwuLSp5v",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "IP",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		}
+	]
+}
