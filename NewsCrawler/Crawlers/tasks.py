@@ -7,8 +7,12 @@ import time
 import os
 from datetime import datetime, timezone
 import pytz
-from khayyam import JalaliDatetime
+import warnings
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=UserWarning)
+    from khayyam import JalaliDatetime
 from CustomNews.models import CustomNew
+from django.utils.timezone import make_aware
 
 def parse_xml_response(xml_content, key):
     items = {}
@@ -153,8 +157,8 @@ def save_to_database():
                 'status': value['status'],
                 'title': value['title'],
                 'link': value['link'],
-                'pubDate_ad': datetime.strptime(adDate, "%Y-%m-%dT%H:%M:%S.%fZ"),
-                'pubDate_solar': datetime.strptime(shamsi_date, "%Y-%m-%d %H:%M:%S.%f"),
+                'pubDate_ad': make_aware(datetime.strptime(adDate, "%Y-%m-%dT%H:%M:%S.%fZ")),
+                'pubDate_solar': make_aware(datetime.strptime(shamsi_date, "%Y-%m-%d %H:%M:%S.%f")),
                 'description': value['description']
             }
         )
