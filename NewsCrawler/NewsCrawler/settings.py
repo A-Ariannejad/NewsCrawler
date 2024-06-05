@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'rest_framework',
     'oauth2_provider',
+    'django_filters',
     'CustomUsers',
     'Crawlers',
     'CustomNews',
@@ -53,6 +54,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
